@@ -90,7 +90,7 @@ groovn/
 
 **Lucas Ávila**
 
-* 🎓 Philosophy, Politics, Law & Economics student at IE University
+* 🎓 Philosophy, Politics, Law & Economics and Business and Data Analytics student at IE University
 * 🌍 Passionate about music, data, and design
 * 💡 Connect on [GitHub](https://github.com/<your-username>)
 
