@@ -1,101 +1,48 @@
-# 🎶 Groovn
+English | [Español](README.es.md)
 
-**Groovn** is a social music tracking app inspired by **Letterboxd** and **Goodreads** — but for music lovers.
-It lets users **rate**, **review**, and **organize** their favorite albums, discover new ones, and explore the listening habits of others.
+# Groovn
 
----
+A desktop app to rate, review and browse music albums, in the style of Letterboxd for music.
 
-## 🚀 Features
+## Context
 
-* 🎧 **Add Albums** — Submit albums with details like title, artist, genre, release date, and album cover.
-* ⭐ **Rating & Reviews** — Rate albums with a star system and write personal reviews.
-* 🖼️ **Album Art Display** — Automatically shows cover images from URLs.
-* 🔍 **Search & Filter** — Browse your collection by:
+Personal project (autumn 2025).
 
-  * Artist (alphabetical order)
-  * Genre (custom selection)
-  * Rating (best to worst or vice versa)
-  * Release date
-* 👤 **User Accounts** — Sign up and log in to manage your own album list.
-* 💾 **Database Integration** — Connects to both AWS RDS (MySQL) and local SQLite for testing.
+## Features
 
----
+- Sign up and log in with a username, email and password.
+- Add an album with title, artist, genre, release date, a 1–5 rating, a written review and a cover image URL.
+- Browse albums as cards with their cover art.
+- Search as you type, filter by genre, and sort by artist (A–Z or Z–A), rating or release date.
 
-## 🧱 Tech Stack
+## How it works
 
-* **Python** (backend logic)
-* **Tkinter** (user interface)
-* **SQLite / AWS RDS (MySQL)** (database)
-* **PyCharm** (IDE)
-* **macOS** (development environment)
+A Tkinter interface talks to a local MySQL database called `groovnapp` with two tables: `users` and `reviews`. Each review belongs to a user. Cover images are downloaded from their URL with `requests` and shown with Pillow.
 
----
+This is a learning project. Passwords are stored in plain text and the database credentials are hard-coded for a local MySQL server, so do not use it with real accounts.
 
-## 🗂️ Project Structure
+## Run it
 
-```
-groovn/
-├── main_page.py            # Main app UI
-├── add_album.py            # Album submission form
-├── login.py                # Login page
-├── signup.py               # Signup page
-├── database.py             # Database connection and queries
-├── icons/
-│   └── logo.png            # App logo
-└── README.md               # Project documentation
+Needs a local MySQL server with user `root` and password `root`, or edit the connection settings in `main.py` and `test-connection.py`.
+
+```bash
+git clone https://github.com/lucasavila23/groovn.git
+cd groovn
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python test-connection.py   # creates the database and tables
+python main.py
 ```
 
----
+## Stack
 
-## ⚙️ Setup Instructions
+Python, Tkinter, MySQL (mysql-connector-python), Pillow, requests.
 
-1. **Clone the repository**
+## License
 
-   ```bash
-   git clone https://github.com/<your-username>/groovn.git
-   cd groovn
-   ```
+MIT. See [LICENSE](LICENSE).
 
-2. **(Optional) Create a virtual environment**
+## Author
 
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
-
-3. **Install dependencies**
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Run the app**
-
-   ```bash
-   python main_page.py
-   ```
-
----
-
-## 🧠 Future Plans
-
-* Add user profiles with listening statistics
-* Integrate APIs (Spotify, Last.fm) for automatic album imports
-* Add friend system and activity feed
-* Create a web version with Flask or React frontend
-
----
-
-## 🧑‍💻 Author
-
-**Lucas Ávila**
-
-* 🎓 Philosophy, Politics, Law & Economics and Business and Data Analytics student at IE University
-* 🌍 Passionate about music, data, and design
-* 💡 Connect on [GitHub](https://github.com/<your-username>)
-
----
-
-## 📄 License
-
-This project is open-source under the [MIT License](LICENSE).
+Lucas Avila Manotas · [LinkedIn](https://www.linkedin.com/in/lucas-avila23)
