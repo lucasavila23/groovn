@@ -90,3 +90,16 @@ def test_download_failure_leaves_no_finished_file(tmp_path):
     with pytest.raises(OSError):
         download((tmp_path / "missing.jsonl").as_uri(), dest)
     assert not dest.exists()
+
+
+@pytest.mark.parametrize("raw_rating", [0.6, 5.4, 4.5])
+def test_check_rejects_ratings_a_cast_would_round_into_range(tmp_path, raw_rating):
+    raw = tmp_path / "raw"
+    raw.mkdir()
+    (raw / "meta.jsonl").write_bytes((FIXTURES / "meta.jsonl").read_bytes())
+    (raw / "reviews.jsonl").write_text(
+        f'{{"rating": {raw_rating}, "title": "t", "text": "x", "parent_asin": "A", '
+        f'"user_id": "U", "timestamp": 1452650777000, "helpful_vote": 0, "verified_purchase": true}}\n')
+    convert(raw, tmp_path)
+    with pytest.raises(ValueError, match="rating"):
+        check(tmp_path)

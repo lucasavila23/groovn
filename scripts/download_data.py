@@ -54,7 +54,7 @@ def convert(raw: Path, out: Path) -> None:
     reviews = f"read_json('{raw / 'reviews.jsonl'}', format='newline_delimited', columns={REVIEW_COLS})"
     meta = f"read_json('{raw / 'meta.jsonl'}', format='newline_delimited', columns={META_COLS})"
     ts = "make_timestamp(timestamp * 1000)"  # raw timestamps are epoch milliseconds
-    con.execute(f"""COPY (SELECT user_id, parent_asin AS item_id, rating::TINYINT AS rating,
+    con.execute(f"""COPY (SELECT user_id, parent_asin AS item_id, rating,
         {ts} AS ts, verified_purchase, helpful_vote FROM {reviews})
         TO '{out / 'ratings.parquet'}'""")
     con.execute(f"""COPY (SELECT user_id, parent_asin AS item_id, {ts} AS ts, title, text
@@ -76,8 +76,8 @@ def check(out: Path) -> None:
     ratings = out / "ratings.parquet"
     if n := one(f"SELECT count(*) FROM '{ratings}' WHERE user_id IS NULL OR item_id IS NULL"):
         raise ValueError(f"ratings.parquet: {n} rows with a null user_id or item_id")
-    if n := one(f"SELECT count(*) FROM '{ratings}' WHERE rating IS NULL OR rating NOT BETWEEN 1 AND 5"):
-        raise ValueError(f"ratings.parquet: {n} rows with a rating outside 1-5")
+    if n := one(f"SELECT count(*) FROM '{ratings}' WHERE rating IS NULL OR rating NOT IN (1, 2, 3, 4, 5)"):
+        raise ValueError(f"ratings.parquet: {n} rows with a rating that is not a whole number 1-5")
     if n := one(f"SELECT count(*) FROM '{out / 'albums.parquet'}' WHERE item_id IS NULL"):
         raise ValueError(f"albums.parquet: {n} rows with a null item_id")
 
