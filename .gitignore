@@ -11,3 +11,6 @@ coursework/
 data/
 mlruns/
 .ipynb_checkpoints/
+*.egg-info/
+.claude/
+.superpowers/
