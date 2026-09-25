@@ -5,3 +5,9 @@ venv/
 .venv/
 .DS_Store
 .env
+
+# local-only
+coursework/
+data/
+mlruns/
+.ipynb_checkpoints/
