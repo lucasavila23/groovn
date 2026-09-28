@@ -12,6 +12,8 @@ dependencies = [
     "pyarrow",
     "matplotlib",
     "seaborn",
+    "scikit-learn",
+    "scipy",
     "jupyterlab",
     "pytest",
 ]

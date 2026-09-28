@@ -41,7 +41,7 @@ Rules:
 
 ## Learning path
 
-1. EDA: long tail, sparsity, activity per user, rating distribution, time trends
+1. EDA (canonical): data quality + missingness (MCAR/MAR/MNAR), distributions, Lorenz/Gini, time, feature tables + correlations, PCA, truncated SVD preview
 2. Problem framing: rating prediction vs top-K ranking, explicit vs implicit, leakage
 3. Evaluation harness: temporal split, Recall@K, NDCG@K, coverage (built before any model)
 4. Baselines: popularity, item-kNN

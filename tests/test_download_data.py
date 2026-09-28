@@ -19,7 +19,7 @@ def count(path: Path) -> int:
 def test_convert_writes_three_tables_with_expected_columns(tmp_path):
     convert(FIXTURES, tmp_path)
     assert columns(tmp_path / "ratings.parquet") == [
-        "user_id", "item_id", "rating", "ts", "verified_purchase", "helpful_vote"]
+        "user_id", "item_id", "rating", "ts", "verified_purchase", "helpful_vote", "text_len"]
     assert columns(tmp_path / "reviews.parquet") == ["user_id", "item_id", "ts", "title", "text"]
     assert columns(tmp_path / "albums.parquet") == [
         "item_id", "title", "store", "categories", "details",
@@ -103,3 +103,10 @@ def test_check_rejects_ratings_a_cast_would_round_into_range(tmp_path, raw_ratin
     convert(raw, tmp_path)
     with pytest.raises(ValueError, match="rating"):
         check(tmp_path)
+
+
+def test_ratings_carry_review_text_length(tmp_path):
+    convert(FIXTURES, tmp_path)
+    # first fixture review text is "LOVE IT!"
+    lengths = duckdb.sql(f"SELECT text_len FROM '{tmp_path}/ratings.parquet' LIMIT 1").fetchone()
+    assert lengths == (8,)

@@ -55,7 +55,8 @@ def convert(raw: Path, out: Path) -> None:
     meta = f"read_json('{raw / 'meta.jsonl'}', format='newline_delimited', columns={META_COLS})"
     ts = "make_timestamp(timestamp * 1000)"  # raw timestamps are epoch milliseconds
     con.execute(f"""COPY (SELECT user_id, parent_asin AS item_id, rating,
-        {ts} AS ts, verified_purchase, helpful_vote FROM {reviews})
+        {ts} AS ts, verified_purchase, helpful_vote,
+        coalesce(length(text), 0) AS text_len FROM {reviews})
         TO '{out / 'ratings.parquet'}'""")
     con.execute(f"""COPY (SELECT user_id, parent_asin AS item_id, {ts} AS ts, title, text
         FROM {reviews}) TO '{out / 'reviews.parquet'}'""")
