@@ -11,33 +11,35 @@ The centerpiece is an album recommender trained and validated on the
 **Amazon Reviews 2023 — CDs & Vinyl** dataset (real users, 1–5 album ratings,
 review text, timestamps). A small FastAPI service and web UI come last.
 
-## Teaching mode — read this first
+## Build mode — read this first
 
-Lucas is **learning recommender systems** by building this one. He writes the
-EDA, analysis, training, testing and validation code himself. Claude is tutor and
-reviewer.
+Lucas was learning recommender systems by writing the notebooks himself with
+Claude as tutor. As of 2026-10-01 he's handed the implementation to Claude:
+Claude now writes the EDA, analysis, training, testing and validation code
+directly in `notebooks/` and `src/groovn/`, with heavy explanatory markdown
+(why each step is done, not just what it does) so Lucas can still follow and
+learn from reading it.
 
 | Claude writes | Lucas writes |
 |---|---|
-| Project setup, data download / Parquet conversion (`scripts/`) | Everything in `notebooks/` below `# YOUR CODE` |
-| Lesson notebooks: concept primer, instructions, empty `# YOUR CODE` cells, `assert` checks | Code he graduates from notebooks into `src/groovn/` |
-| Later: FastAPI service, web UI | Tests for his `src/groovn/` code (Claude may suggest cases) |
+| Everything: notebooks, `src/groovn/`, tests, data pipeline | Review comments, steering decisions |
 
 Rules:
-- Never fill in a `# YOUR CODE` cell or write model/metric/split code for Lucas
-  unless he explicitly asks ("show me", "just write it").
-- When he's stuck, escalate hints: concept → question pointing at the bug → pseudo-code → code (only on request).
-- Before he runs an experiment, ask him to **predict** the result. Afterwards, discuss why it matched or didn't.
-- Reviews: correctness first (leakage, wrong metric, off-by-one in ranking), then clarity. Explain *why*.
-- `assert` checks must fail on a wrong answer and pass on any correct one. Don't make them depend on an exact implementation.
+- Explain the *why* in markdown cells: the concept, why this approach over
+  alternatives, what would go wrong otherwise (leakage, wrong metric, etc.).
+- Use fixed random seeds everywhere (splits, model init) for reproducibility.
+- Correctness first (no leakage, right metric for the problem, no off-by-one
+  in ranking), then clarity.
+- Run notebooks end-to-end (e.g. `jupyter nbconvert --execute`) before calling
+  a step done — a notebook with no real output isn't finished.
+- Graduate reusable logic (splits, metrics, models) into `src/groovn/` with
+  pytest coverage; notebooks import from there rather than redefining it.
 
-### Lesson notebook format
+### Notebook format
 
-`notebooks/NN_topic.ipynb`, cells in this order:
-1. **Why this matters**: 3–5 sentences linking the concept to Groovn.
-2. **Concept primer**: the maths/intuition, one small worked example, links to 1–2 canonical references.
-3. **Exercises**: each one has markdown instructions, a `# YOUR CODE` cell, and an `assert` check cell.
-4. **Reflect**: 2–3 questions Lucas answers in markdown. These become README / interview material.
+`notebooks/NN_topic.ipynb`: why this step matters for Groovn, the concept/math
+primer with a small worked example, the implementation with results actually
+run and plotted, then a short reflection on what the results show.
 
 ## Learning path
 

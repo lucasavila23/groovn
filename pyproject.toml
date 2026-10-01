@@ -16,6 +16,10 @@ dependencies = [
     "scipy",
     "jupyterlab",
     "pytest",
+    "implicit",
+    "torch",
+    "mlflow",
+    "tabulate",
 ]
 
 [tool.setuptools.packages.find]
